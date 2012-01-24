@@ -41,6 +41,49 @@ class template_util
 		return $url;
 	}
 
+	// -----------------------------------------------------
+	// Parses a query string into an array
+	// -----------------------------------------------------
+	public static function parse_query_string($query_string) {
+		assert('is_string($query_string)');
+		$res = array();
+		foreach(explode('&', $query_string) as $param) {
+			$param = explode('=', $param);
+			$name = urldecode($param[0]);
+			if(count($param) === 1) {
+				$value = '';
+			} else {
+				$value = urldecode($param[1]);
+			}
+			$res[$name] = $value;
+		}
+		return $res;
+	}
+
+	// -----------------------------------------------------
+	// Given a url an array of key=>value pairs, returns an updated
+	// url with the key=>pairs added (or updated) as query parameters
+	// -----------------------------------------------------
+	public static function add_url_parameter($url, $parameter) {
+		assert('is_array($parameter)');
+		$queryStart = strpos($url, '?');
+		if($queryStart === FALSE) {
+			$oldQuery = array();
+			$url .= '?';
+		} else {
+			$oldQuery = substr($url, $queryStart + 1);
+			if($oldQuery === FALSE) {
+				$oldQuery = array();
+			} else {
+				$oldQuery = self::parseQueryString($oldQuery);
+			}
+			$url = substr($url, 0, $queryStart + 1);
+		}
+		$query = array_merge($oldQuery, $parameter);
+		$url .= http_build_query($query, '', '&');
+		return $url;
+	}
+
 }
 
 // -----------------------------------------------------
