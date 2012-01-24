@@ -11,7 +11,6 @@ class template_util
 	// 	 provides a link to the target page
 	// -----------------------------------------------------
 	public static function redirect($url) {
-		#$url = urldecode($url);
 		if(!headers_sent() && false) {
 			header("Location: {$url}");
 		} else {
