@@ -75,7 +75,7 @@ class template_util
 			if($oldQuery === FALSE) {
 				$oldQuery = array();
 			} else {
-				$oldQuery = self::parseQueryString($oldQuery);
+				$oldQuery = self::parse_query_string($oldQuery);
 			}
 			$url = substr($url, 0, $queryStart + 1);
 		}
